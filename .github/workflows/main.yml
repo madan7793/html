@@ -1,0 +1,25 @@
+name: html CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: configure aws credentials
+        uses: aws-actions/congigure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secretes.AWS-ACCESS-KEY-ID }}
+          aws-secrete-access-key: ${{ secrete.AWS-SECRETE-ACCESS-KEY }}
+          aws-region: us-east-1
+
+      - name: site on s3 bucket
+        run: aws s3 sync . s3://madan001011 --delete
+
+      
