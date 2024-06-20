@@ -15,8 +15,8 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/congigure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secretes.AWS_ACCESS_KEY_ID }}
-          aws-secrete-access-key: ${{ secretes.AWS_SECRETE_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secrete-access-key: ${{ secrets.AWS_SECRETE_ACCESS_KEY }}
           aws-region: us-east-1
 
       - name: site on s3 bucket
