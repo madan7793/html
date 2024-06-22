@@ -5,12 +5,12 @@ provider "aws" {
 resource "aws_msk_cluster" "kafka_cluster" {
   cluster_name           = "example-cluster"
   kafka_version          = "2.8.1"
-  number_of_broker_nodes = 3
+  number_of_broker_nodes = 2
 
   broker_node_group_info {
     instance_type   = "kafka.m5.large"
-    client_subnets  = ["subnet-12345678", "subnet-87654321"]
-    security_groups = ["sg-12345678"]
+    client_subnets  = ["subnet-03151fd3b6eaba29d", "subnet-00558958d15ffec4b"]
+    security_groups = ["sg-0149ec6f0649ba6fe"]
   }
 
   encryption_info {
