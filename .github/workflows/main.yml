@@ -42,12 +42,35 @@ jobs:
 
     - name: Terraform Init
       run: terraform init
+      working-directory: ./terraform
 
-    - name: Terraform destroy
-      run: terraform destroy 
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: ./terraform
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v1
+      with:
+        version: 'v1.18.15'
+
+    - name: Get kubeconfig
+      id: get_kubeconfig
+      run: echo "::set-output name=kubeconfig::$(terraform output -raw kubeconfig)"
+      working-directory: ./terraform
+
+    - name: Configure kubectl
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ steps.get_kubeconfig.outputs.kubeconfig }}" > $HOME/.kube/config
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+
       
 
 
